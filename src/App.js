@@ -1,10 +1,15 @@
+import { Fragment } from 'react';
 import './App.css';
+import Header from './Layout/Header';
+import Login from './pages/Login';
 
 function App() {
   return (
-    <div className="App">
- 
-    </div>
+    <Fragment>
+      <Header/>
+      <Login/>
+      
+    </Fragment> 
   );
 }
 
