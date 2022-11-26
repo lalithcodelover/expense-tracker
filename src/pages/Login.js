@@ -1,18 +1,20 @@
 import React, { useRef, useState } from 'react'
 import classes from './Login.module.css'
 import axios from 'axios'
+import {useHistory} from 'react-router-dom'
 
 const Login = () => {
     const emailInputRef = useRef()
     const passwordInputRef = useRef()
     const confirmPasswordRef= useRef()
     const [isLogin,setIsLogin] = useState(false)
-    
+const history  =  useHistory() 
     const switchLoginHandler=()=>{
         setIsLogin(prevState=>!prevState)
     }
     const formSubmitHandler=(e)=>{
         e.preventDefault()
+        
         let url;
         if(isLogin){
             url='https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=AIzaSyCZ_ansWvG2rYiw6QgB7Xm5LUQahA4kH0A'
@@ -24,7 +26,7 @@ const Login = () => {
         const password=passwordInputRef.current.value
         const confirmPassword = confirmPasswordRef.current.value
         if(password!==confirmPassword){
-            alert('ReEntered password is incorrect')
+            alert('Entered password is incorrect')
         }
         
         axios.post(url,{
@@ -33,8 +35,15 @@ const Login = () => {
             returnSecureToken:true
         })
         .then((response)=>{
-           console.log(response.data.idToken);
-           console.log('User has successfully signed up');
+            if(response.status===200){
+                const token= response.data.idToken
+                
+                localStorage.setItem('token',token)
+                history.push('/welcome')
+                console.log('User has successfully signed up');
+                console.log(response);
+            }
+            
         })
         .catch((err)=>{
             alert('Authentication Failed')
@@ -49,8 +58,11 @@ const Login = () => {
         <input type="password" minLength='6' placeholder='Password' ref={passwordInputRef}/>
         <input type="text" minLength='6' placeholder='Confirm Password' ref={confirmPasswordRef}/> 
         <button>{isLogin?'Login':'Sign Up'}</button>
-        <p>{isLogin?'Dont have an account? ':'Already have an account? '}<span onClick={switchLoginHandler}>{isLogin?'Signup':'Login'}</span></p>
+        {/* <p>{isLogin?'Dont have an account? ':'Already have an account? '}<span onClick={switchLoginHandler}>{isLogin?'Signup':'Login'}</span></p> */}
       </form>
+      <div>
+      <p>{isLogin?'Dont have an account? ':'Already have an account? '}<span onClick={switchLoginHandler}>{isLogin?'Signup':'Login'}</span></p>
+      </div>
     </div>
   )
 }

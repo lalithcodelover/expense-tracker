@@ -1,5 +1,9 @@
 .header {
     background-color: rgb(24, 24, 39);
     height: 50px;
-    
+    position: fixed;
+    top:0;
+    width: 100%;
+    color: white;
+    text-align: center;
 }
