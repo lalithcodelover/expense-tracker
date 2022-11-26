@@ -1,0 +1,43 @@
+.update {
+    margin-top: 50px;
+}
+.heading {
+    display: flex;
+    justify-content: space-between;
+    border-bottom: 1px solid black;
+}
+.heading p {
+    margin: 5px;
+}
+
+.message {
+    font-size: small;
+    background-color: rgb(212, 185, 185);
+    width: 30%;
+    color: black;
+}
+
+.box{
+    margin: auto;
+    width: 40%;
+}
+.updateform {
+    margin: auto;
+    display: block;
+    width: 30%;
+    text-align: left;
+}
+input{
+    
+    margin: 10px;
+}
+.updateform label {
+    margin: 10px 0;
+    padding: 10px;
+}
+
+.updatebutton {
+    margin: auto;
+    margin-top: 10px;
+    text-align: center;
+}
