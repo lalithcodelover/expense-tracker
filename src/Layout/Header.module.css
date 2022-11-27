@@ -6,4 +6,18 @@
     width: 100%;
     color: white;
     text-align: center;
+    display: flex;
+}
+
+.header h1 {
+    width: 90%;
+}
+
+.logoutbutton {
+    margin: auto;
+    border-radius: 5px;
+    padding: 5px;
+    color: white;
+    background-color: red;
+    cursor: pointer;
 }
