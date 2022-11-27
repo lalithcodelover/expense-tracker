@@ -1,22 +1,30 @@
-import React, { useContext, useRef } from "react";
+import axios from "axios";
+import React, { useContext, useEffect } from "react";
+import ExpenseForm from "../components/ExpenseForm";
 import ExpenseContext from "../store/expense-context";
 import classes from "./MyExpenses.module.css";
-const MyExpenses = () => {
-  const amountInputRef = useRef();
-  const descriptionInputRef = useRef();
-  const categoryInputRef = useRef();
-  const expenseCtx = useContext(ExpenseContext);
-  const addExpenseHandler = (e) => {
-    e.preventDefault();
 
-    const newExpense = {
-      id: Math.random(),
-      amount: amountInputRef.current.value,
-      description: descriptionInputRef.current.value,
-      category: categoryInputRef.current.value,
-    };
-    expenseCtx.addExpense(newExpense);
-  };
+const MyExpenses = () => {
+  
+  const expenseCtx = useContext(ExpenseContext);
+
+ useEffect(()=>{
+     axios
+      .get(
+        "https://expensetracker-0574-default-rtdb.firebaseio.com/expenses.json"
+      )
+      .then((res) => {
+        console.log(res.data);
+        if(res.status===200){
+            expenseCtx.expenselist(res.data);
+        }
+        
+        
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+    },[])
 
   const expenseList = expenseCtx.expenses.map((expense) => {
     return (
@@ -31,26 +39,11 @@ const MyExpenses = () => {
   return (
     <div className={classes.expensebox}>
       <h1>Expenses</h1>
-      <form onSubmit={addExpenseHandler} className={classes.expenseform}>
-        <label htmlFor="amount">Money Spent</label>
-        <input type="text" id="amount" ref={amountInputRef} />
-        <label htmlFor="description">Description</label>
-        <input type="text" id="description" ref={descriptionInputRef} />
-        <label htmlFor="category">Category</label>
-        <select name="category" id="category" ref={categoryInputRef}>
-          <option value="food">Food</option>
-          <option value="fuel">Fuel</option>
-          <option value="movie">Movie</option>
-          <option value="medicine">Medicine</option>
-          <option value="entertainment">Entertainment</option>
-          <option value="education">Education</option>
-        </select>
-        <button>Add Expense</button>
-      </form>
+      <ExpenseForm />
       <div className={classes.expenseheading}>
         <h2>Amount</h2>
         <h2 className={classes.description}>Description</h2>
-        <h2 >Category</h2>
+        <h2>Category</h2>
       </div>
       <ul className={classes.expenselist}>{expenseList}</ul>
     </div>
