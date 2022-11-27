@@ -1,0 +1,72 @@
+.expensebox {
+    width: 80%;
+    text-align: center;
+    margin: auto;
+    margin-top: 100px;
+
+}
+body{
+    background-color: rgb(77, 158, 90);
+}
+.expenseform {
+    align-items: center;
+    display: flex;
+    margin: auto;
+    margin: 15px 10px;
+}
+
+.expenseform label {
+  margin: auto;
+  font-size: medium;
+  font-weight: 600;
+}
+
+.expenseform input {
+    margin: 0;
+    padding: 3px 5px;
+}
+select {
+    padding: 3px 5px;
+}
+
+.expenseform button {
+    margin: auto;
+    padding: 5px 7px;
+    border-radius: 5px;
+    border: 1px solid green;
+    background-color: green;
+    color: white;
+}
+
+.expenseheading {
+    display: flex;
+    width: 90%;
+    margin: auto;
+    padding-bottom: 5px;
+    justify-content: space-around;
+    
+}
+
+
+.expenseitem {
+    display: flex;
+    width: 100%;
+    
+    
+}
+
+.description {
+    padding-right: 0px;
+    margin-right: 0px;
+}
+
+.expenseitem div {
+    display: flex;
+    margin:  10px 90px ;
+    padding: 10px 50px;
+    width: 33%;
+
+font-weight: bold;
+text-align: center;
+
+}
