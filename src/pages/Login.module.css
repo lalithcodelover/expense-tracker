@@ -20,16 +20,18 @@
 .form h3 {
     padding: 5px 0 15px;
     color: grey;
+
 }
 
 .form input {
     padding: 4px;
     margin-bottom: 10px;
+    margin-top: 5px;
     width: 80%;
     border: 1px solid grey;
 }
 
-.form button {
+.loginbutton {
     margin-top: 25px;
     padding: 7px 5px;
     width: 80%;
@@ -39,13 +41,21 @@
     color:white;
     cursor: pointer;
 }
-
+.forgotpassword {
+    border: none;
+    background-color: white;
+    color: blue;
+}
+.forgotpassword:hover{
+    background-color:white;
+    cursor: pointer;
+}
 .form p {
     margin-top: 15px;
 }
 
 
-.form button:hover{
+.loginbutton:hover{
     background-color: rgb(40, 40, 112);
 }
 /* body{

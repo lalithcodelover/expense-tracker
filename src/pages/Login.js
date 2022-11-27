@@ -12,6 +12,10 @@ const history  =  useHistory()
     const switchLoginHandler=()=>{
         setIsLogin(prevState=>!prevState)
     }
+
+    const resetPasswordPage=()=>{
+        history.push('/resetpassword')
+    }
     const formSubmitHandler=(e)=>{
         e.preventDefault()
         
@@ -57,7 +61,8 @@ const history  =  useHistory()
         <input type="email" placeholder='Email' ref={emailInputRef}  />
         <input type="password" minLength='6' placeholder='Password' ref={passwordInputRef}/>
         <input type="text" minLength='6' placeholder='Confirm Password' ref={confirmPasswordRef}/> 
-        <button>{isLogin?'Login':'Sign Up'}</button>
+        <button onClick={resetPasswordPage} className={classes.forgotpassword}>Forgot password?</button>
+        <button className={classes.loginbutton}>{isLogin?'Login':'Sign Up'}</button>
         {/* <p>{isLogin?'Dont have an account? ':'Already have an account? '}<span onClick={switchLoginHandler}>{isLogin?'Signup':'Login'}</span></p> */}
       </form>
       <div>
