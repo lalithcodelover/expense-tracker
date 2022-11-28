@@ -39,13 +39,6 @@ const ExpenseForm = (props) => {
       });
   };
 
-  let data ={
-    amount:amountInputRef.current.value,
-          description:descriptionInputRef.current.value,
-          category:categoryInputRef.current.value
-
-  }
-props.formdata(data)
   return (
     <div>
       <form onSubmit={addExpenseHandler} className={classes.expenseform}>

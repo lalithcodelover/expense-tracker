@@ -4,7 +4,7 @@ const ExpenseContext = React.createContext({
   expensedata: [],
   addExpense: (expense) => {},
   deleteExpense: (id) => {},
-  editExpense:(expense)=>{}
+  editExpense: (expense) => {},
 });
 
 export const ExpenseContextProvider = (props) => {
@@ -53,14 +53,23 @@ export const ExpenseContextProvider = (props) => {
     });
   };
 
-  const editExpenseHandler=(expense)=>{
-    
-  }
+  const updateDataHandler = (expense) => {
+    let expenseitems = [...expenseData];
+    expenseitems.forEach((item, index) => {
+      if (item.id === expense.id) {
+        expenseitems.splice(index, 1);
+        setExpenseData(() => {
+          return [...expenseitems, expense];
+        });
+      }
+    });
+  };
+
   const values = {
     expensedata: expenseData,
     addExpense: addExpenseHandler,
     deleteExpense: deleteExpenseHandler,
-    editExpense:editExpenseHandler
+    updatedata: updateDataHandler,
   };
   return (
     <ExpenseContext.Provider value={values}>
