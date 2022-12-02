@@ -19,9 +19,11 @@ const MyExpenses = () => {
   const premiumModeHandler = () => {
     dispatch(themeActions.toggle());
   };
+
   const changeThemeHandler = () => {
     dispatch(themeActions.toggle());
   };
+
   const theme = useSelector((state) => state.theme.isPremium);
   if (theme) {
     document.body.style.background = "rgb(44, 39, 39)";
@@ -101,22 +103,20 @@ const MyExpenses = () => {
       </li>
     );
   });
-  //   function makeCsv(expenses){
-  // return expenses
-  //   }
-  //   const data = document.getElementById("data")
-  const blob = new Blob([expense]);
+console.log(expense);
+  const headers = Object.keys(expense[0]).toString();
+  const main = expense.map((item) => {
+    return Object.values(item).toString();
+  });
+  const csv = [headers, ...main].join("\n");
+  const blob = new Blob([csv]);
   const url = URL.createObjectURL(blob);
+
   return (
     <div className={classes.expensebox}>
       {totalExpenses > 10000 && (
         <div className={classes.topbuttons}>
-          <a
-            href={url}
-            download="file.csv"
-            id="data"
-            className={classes.downloadbtn}
-          >
+          <a href={url} download="expenses.csv" className={classes.downloadbtn}>
             Download file
           </a>
           <button onClick={changeThemeHandler} className={classes.themebtn}>
