@@ -1,81 +1,87 @@
-import React, { useState, useEffect } from "react";
-import axios from "axios";
-const ExpenseContext = React.createContext({
-  expensedata: [],
-  addExpense: (expense) => {},
-  deleteExpense: (id) => {},
-  editExpense: (expense) => {},
-});
+// import React, { useState, useEffect } from "react";
+// import axios from "axios";
+// import {useDispatch} from 'react-redux'
+// import { expenseActions } from "./expenseReducer";
 
-export const ExpenseContextProvider = (props) => {
-  const [expenseData, setExpenseData] = useState([]);
+// const ExpenseContext = React.createContext({
+//   expensedata: [],
+//   addExpense: (expense) => {},
+//   deleteExpense: (id) => {},
+//   editExpense: (expense) => {},
+// });
 
-  const addExpenseHandler = (expense) => {
-    console.log(expense);
-    setExpenseData((prev) => {
-      return [...prev, expense];
-    });
-  };
+// export const ExpenseContextProvider = (props) => {
+//   const [expenseData, setExpenseData] = useState([]);
 
-  useEffect(() => {
-    const fetchingData = async () => {
-      const response = await axios.get(
-        "https://expensetracker-0574-default-rtdb.firebaseio.com/expenses.json"
-      );
+//   const addExpenseHandler = (expense) => {
+//     console.log(expense);
+//     setExpenseData((prev) => {
+//       return [...prev, expense];
+//     });
+//   };
 
-      const temp = [];
-      for (const key in response.data) {
-        temp.push({
-          id: key,
-          amount: response.data[key].amount,
-          description: response.data[key].description,
-          category: response.data[key].category,
-        });
-      }
 
-      setExpenseData(temp);
-    };
-    fetchingData();
-  }, []);
+  
+  
+  //  const fetchingData = async () => {
+  //     const response = await axios.get(
+  //       "https://expensetracker-0574-default-rtdb.firebaseio.com/expenses.json"
+  //     );
 
-  const deleteExpenseHandler = (id) => {
-    axios.delete(
-      `https://expensetracker-0574-default-rtdb.firebaseio.com/expenses/${id}.json`
-    );
+  //     const temp = [];
+  //     for (const key in response.data) {
+  //       temp.push({
+  //         id: key,
+  //         amount: response.data[key].amount,
+  //         description: response.data[key].description,
+  //         category: response.data[key].category,
+  //       });
+  //     }
+  //       // dispatch(expenseActions.addExpense(temp))
+  //     setExpenseData(temp);
+  //   };
+  //   fetchingData();
+  
 
-    let expenseitems = [...expenseData];
-    expenseitems.forEach((expense, index) => {
-      if (expense.id === id) {
-        expenseitems.splice(index, 1);
-        console.log(expenseitems);
-        setExpenseData(expenseitems);
-      }
-    });
-  };
+//   const deleteExpenseHandler = (id) => {
+    // axios.delete(
+    //   `https://expensetracker-0574-default-rtdb.firebaseio.com/expenses/${id}.json`
+    // );
 
-  const updateDataHandler = (expense) => {
-    let expenseitems = [...expenseData];
-    expenseitems.forEach((item, index) => {
-      if (item.id === expense.id) {
-        expenseitems.splice(index, 1);
-        setExpenseData(() => {
-          return [...expenseitems, expense];
-        });
-      }
-    });
-  };
+//     let expenseitems = [...expenseData];
+//     expenseitems.forEach((expense, index) => {
+//       if (expense.id === id) {
+//         expenseitems.splice(index, 1);
+//         console.log(expenseitems);
+//         setExpenseData(expenseitems);
+//       }
+//     });
+//   };
 
-  const values = {
-    expensedata: expenseData,
-    addExpense: addExpenseHandler,
-    deleteExpense: deleteExpenseHandler,
-    updatedata: updateDataHandler,
-  };
-  return (
-    <ExpenseContext.Provider value={values}>
-      {props.children}
-    </ExpenseContext.Provider>
-  );
-};
+//   const updateDataHandler = (expense) => {
+//     let expenseitems = [...expenseData];
+//     expenseitems.forEach((item, index) => {
+//       if (item.id === expense.id) {
+//         expenseitems.splice(index, 1);
+//         setExpenseData(() => {
+//           return [...expenseitems, expense];
+//         });
+//       }
+//     });
+//   };
 
-export default ExpenseContext;
+//   const values = {
+//     expensedata: expenseData,
+//     addExpense: addExpenseHandler,
+//     deleteExpense: deleteExpenseHandler,
+//     updatedata: updateDataHandler,
+//   };
+//   return (
+//     <ExpenseContext.Provider value={values}>
+//       {props.children}
+//     </ExpenseContext.Provider>
+//   );
+// };
+
+// export default ExpenseContext;
+

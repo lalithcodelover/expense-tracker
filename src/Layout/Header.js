@@ -1,15 +1,21 @@
 import React from "react";
 import { useHistory } from "react-router-dom";
+import {useDispatch,useSelector} from 'react-redux'
 import classes from "./Header.module.css";
+import { authActions } from "../store/authReducer";
 const Header = () => {
+  const dispatch = useDispatch()
   const history = useHistory();
+  const token =useSelector(state=>state.auth.token)
+
   const logoutHandler = () => {
     localStorage.removeItem("token");
-
+    dispatch(authActions.logout())
     history.replace("/login");
   };
   const goToExpensePage=()=>{
-  const token=  localStorage.getItem('token')
+  // const token=  localStorage.getItem('token')
+
     if(token){
       history.replace('/expenses')
     }

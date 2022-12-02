@@ -1,4 +1,5 @@
-import { Fragment } from "react";
+import { Fragment, useEffect } from "react";
+import { useDispatch } from "react-redux";
 import { Route, Switch } from "react-router-dom";
 import "./App.css";
 import Header from "./Layout/Header";
@@ -7,13 +8,16 @@ import Login from "./pages/Login";
 import MyExpenses from "./pages/MyExpenses";
 import UpdateProfile from "./pages/UpdateProfile";
 import Welcome from "./pages/Welcome";
-import { ExpenseContextProvider } from "./store/expense-context";
+import { fetchingData } from "./store/expense_actions";
 
 function App() {
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(fetchingData());
+  }, [dispatch]);
   return (
     <Fragment>
       <Header />
-      <ExpenseContextProvider>
       <Switch>
         <Route path="/login">
           <Login />
@@ -21,8 +25,8 @@ function App() {
         <Route path="/welcome">
           <Welcome />
         </Route>
-        <Route path='/expenses'>
-          <MyExpenses/>
+        <Route path="/expenses">
+          <MyExpenses />
         </Route>
         <Route path="/updateprofile">
           <UpdateProfile />
@@ -31,7 +35,6 @@ function App() {
           <ForgotPassword />
         </Route>
       </Switch>
-      </ExpenseContextProvider>
     </Fragment>
   );
 }

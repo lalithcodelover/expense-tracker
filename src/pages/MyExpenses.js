@@ -1,79 +1,67 @@
-import axios from "axios";
-import React, { useContext, useRef } from "react";
-
-import ExpenseContext from "../store/expense-context";
+import React, { useRef, useState } from "react";
+import { useSelector, useDispatch } from "react-redux";
+import {
+  deleteExpense,
+  postExpenses,
+  updateExpense,
+} from "../store/expense_actions";
 import classes from "./MyExpenses.module.css";
 
 const MyExpenses = () => {
-  const expenseCtx = useContext(ExpenseContext);
+  const expense = useSelector((state) => state.expense.expenses);
+  const dispatch = useDispatch();
   const amountInputRef = useRef();
   const descriptionInputRef = useRef();
   const categoryInputRef = useRef();
+  const [update, setUpdate] = useState(false);
+
+  let totalExpenses = 0;
+  expense.map(
+    (expense) =>
+      (totalExpenses = Number(totalExpenses) + Number(expense.amount))
+  );
 
   const addExpenseHandler = (e) => {
     e.preventDefault();
+    const obj = {
+      amount: amountInputRef.current.value,
+      description: descriptionInputRef.current.value,
+      category: categoryInputRef.current.value,
+    };
 
-    axios
-      .post(
-        "https://expensetracker-0574-default-rtdb.firebaseio.com/expenses.json",
-        {
-          amount: amountInputRef.current.value,
-          description: descriptionInputRef.current.value,
-          category: categoryInputRef.current.value,
-        }
-      )
-      .then((res) => {
-        console.log(res.data.name);
-        const newExpense = {
-          id: res.data.name,
-          amount: amountInputRef.current.value,
-          description: descriptionInputRef.current.value,
-          category: categoryInputRef.current.value,
-        };
-        expenseCtx.addExpense(newExpense);
+    dispatch(postExpenses(obj));
 
-        amountInputRef.current.value = "";
-        descriptionInputRef.current.value = "";
-        categoryInputRef.current.value = "Select";
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+    amountInputRef.current.value = "";
+    descriptionInputRef.current.value = "";
+    categoryInputRef.current.value = "Select";
   };
 
   const deleteExpenseHandler = (id) => {
-    console.log(id);
-    expenseCtx.deleteExpense(id);
+    dispatch(deleteExpense(id));
   };
 
   const editExpenseHandler = (expense) => {
-    console.log(expense);
-    // expenseCtx.editExpense(expense)
+    setUpdate(true);
     amountInputRef.current.value = expense.amount;
     descriptionInputRef.current.value = expense.description;
     categoryInputRef.current.value = expense.category;
   };
 
-  const updateExpenseHandler = async (expense) => {
-    await axios.put(
-      `https://expensetracker-0574-default-rtdb.firebaseio.com/expenses/${expense.id}.json`,
-      {
-        amount: amountInputRef.current.value,
-        description: descriptionInputRef.current.value,
-        category: categoryInputRef.current.value,
-      }
-    );
+  const updateExpenseHandler = (expense) => {
+    setUpdate(false);
     let data = {
       id: expense.id,
       amount: amountInputRef.current.value,
       description: descriptionInputRef.current.value,
       category: categoryInputRef.current.value,
     };
-    expenseCtx.updatedata(data);
+    dispatch(updateExpense(data));
+    amountInputRef.current.value = "";
+    descriptionInputRef.current.value = "";
+    categoryInputRef.current.value = "Select";
   };
 
-  console.log(expenseCtx.expensedata);
-  const expenseList = expenseCtx.expensedata.map((expense) => {
+  const expenseList = expense.map((expense) => {
     return (
       <li className={classes.expenseitem} key={expense.id}>
         <div>${expense.amount}</div>
@@ -91,13 +79,23 @@ const MyExpenses = () => {
         >
           Edit
         </button>
-        <button onClick={updateExpenseHandler}>Update</button>
+        <button
+          onClick={() => updateExpenseHandler(expense)}
+          className={classes.updatebtn}
+        >
+          Update
+        </button>
       </li>
     );
   });
 
   return (
     <div className={classes.expensebox}>
+      {totalExpenses > 10000 && (
+        <div className={classes.premiumbtn}>
+          <button>Activate Premium!!</button>
+        </div>
+      )}
       <h1>Expenses</h1>
       <div>
         <form onSubmit={addExpenseHandler} className={classes.expenseform}>
@@ -115,7 +113,7 @@ const MyExpenses = () => {
             <option value="Entertainment">Entertainment</option>
             <option value="Education">Education</option>
           </select>
-          <button>Add Expense</button>
+          {!update && <button>Add Expense</button>}
         </form>
       </div>
       <div className={classes.expenseheading}>
@@ -124,6 +122,7 @@ const MyExpenses = () => {
         <div>Category</div>
       </div>
       <ul className={classes.expenselist}>{expenseList}</ul>
+      <div>Total Expense {totalExpenses}</div>
     </div>
   );
 };
