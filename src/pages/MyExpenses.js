@@ -5,6 +5,7 @@ import {
   postExpenses,
   updateExpense,
 } from "../store/expense_actions";
+import { themeActions } from "../store/themeReducer";
 import classes from "./MyExpenses.module.css";
 
 const MyExpenses = () => {
@@ -15,6 +16,18 @@ const MyExpenses = () => {
   const categoryInputRef = useRef();
   const [update, setUpdate] = useState(false);
 
+  const premiumModeHandler = () => {
+    dispatch(themeActions.toggle());
+  };
+  const changeThemeHandler = () => {
+    dispatch(themeActions.toggle());
+  };
+  const theme = useSelector((state) => state.theme.isPremium);
+  if (theme) {
+    document.body.style.background = "rgb(44, 39, 39)";
+  } else {
+    document.body.style.background = "rgb(77, 158, 90)";
+  }
   let totalExpenses = 0;
   expense.map(
     (expense) =>
@@ -88,12 +101,30 @@ const MyExpenses = () => {
       </li>
     );
   });
-
+  //   function makeCsv(expenses){
+  // return expenses
+  //   }
+  //   const data = document.getElementById("data")
+  const blob = new Blob([expense]);
+  const url = URL.createObjectURL(blob);
   return (
     <div className={classes.expensebox}>
       {totalExpenses > 10000 && (
-        <div className={classes.premiumbtn}>
-          <button>Activate Premium!!</button>
+        <div className={classes.topbuttons}>
+          <a
+            href={url}
+            download="file.csv"
+            id="data"
+            className={classes.downloadbtn}
+          >
+            Download file
+          </a>
+          <button onClick={changeThemeHandler} className={classes.themebtn}>
+            {theme ? "Light Theme" : "Dark Theme"}
+          </button>
+          <button onClick={premiumModeHandler} className={classes.premiumbtn}>
+            Activate Premium!!
+          </button>
         </div>
       )}
       <h1>Expenses</h1>

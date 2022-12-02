@@ -11,6 +11,7 @@ import Welcome from "./pages/Welcome";
 import { fetchingData } from "./store/expense_actions";
 
 function App() {
+    
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(fetchingData());
