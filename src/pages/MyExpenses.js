@@ -103,15 +103,20 @@ const MyExpenses = () => {
       </li>
     );
   });
-console.log(expense);
-  const headers = Object.keys(expense[0]).toString();
-  const main = expense.map((item) => {
-    return Object.values(item).toString();
-  });
-  const csv = [headers, ...main].join("\n");
-  const blob = new Blob([csv]);
-  const url = URL.createObjectURL(blob);
-
+  console.log(expense);
+  function download(expense) {
+    if (expense.length > 0) {
+      const headers = Object.keys(expense[0]).toString();
+      const main = expense.map((item) => {
+        return Object.values(item).toString();
+      });
+      const csv = [headers, ...main].join("\n");
+      const blob = new Blob([csv]);
+      const url = URL.createObjectURL(blob);
+      return url;
+    }
+  }
+  const url = download(expense);
   return (
     <div className={classes.expensebox}>
       {totalExpenses > 10000 && (
